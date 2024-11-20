@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Optional: Additional custom styling */
+        body {
+            padding: 20px;
+            background: linear-gradient(to bottom, #FFA07A, #FFE5B4); /* Salmon to Peach gradient */
+        }
+        .container {
+            background: #fff; /* White background for content */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+        }
+
+        .list-group-item {
+            border: none;
+            padding: 0;
+        }
+
+        .post-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .post-summary {
+            cursor: pointer;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4 mb-4">Blog Posts</h1>
+
+
+        <ul class="list-group">
+            {% for post in posts %}
+                <li class="list-group-item">
+                    <div class="post-item">
+                        <h5 class="post-summary mb-0" data-toggle="collapse" href="#collapse{{ post.id }}" role="button" aria-expanded="false" aria-controls="collapse{{ post.id }}">
+                            {{ post.title }}
+                        </h5>
+                        <div class="collapse" id="collapse{{ post.id }}">
+                            <div class="card card-body">
+                                <p>{{ post.content }}</p>
+                                <p><strong>Created by:</strong> {{ post.created_by }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+         <!-- Pagination -->
+        {% if posts.has_other_pages %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if posts.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">previous</a></li>
+                    {% endif %}
+
+                    <li class="page-item disabled"><span class="page-link">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span></li>
+
+                    {% if posts.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">next</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ posts.paginator.num_pages }}">last &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+        <!-- End Pagination -->
+
+    </div>
+
+    <!-- Bootstrap JS and dependencies (optional, if needed for interactive components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
